@@ -42,7 +42,7 @@ scd ()
             echo "Example 2: scd .. goes back to the last directory";
 	    echo "Example 3: scd back 2 goes back 2 directories from where function was called";
         else
-            readarray -t array < <(locate -r "/$input$" 2>/dev/null);
+            readarray -t array < <(locate -r "/${input///}$" 2>/dev/null);
             if (( ${#array[@]} > 1 )); then
                 for i in "${!array[@]}";
                 do
@@ -54,8 +54,8 @@ scd ()
                 cd "${array[$index]}";
                 exec bash;
             else
-                cd "${array[0]}";
                 export lastDir=$(pwd);
+                cd "${array[0]}";
                 exec bash;
             fi;
         fi;
